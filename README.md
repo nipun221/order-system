@@ -8,18 +8,15 @@ The entire development and testing environment is **containerized using Docker**
 
 ### 1. The "Golden Run" (All Tests Passed)
 *Evidence that Unit, Integration, and E2E tests executed successfully in the Docker container.*
-
-![Terminal Output Showing 3 Tests Passed](screenshots/terminal_output.png)
+<img width="1920" height="1080" alt="Screenshot_20260217_044503" src="https://github.com/user-attachments/assets/791fbdeb-ca1e-4415-95bb-dda585972ba7" />
 
 ### 2. Application UI (Running in Docker)
 *Evidence that the web application is accessible at http://localhost:8080 and renders correctly.*
-
-![Browser Screenshot of Order System](screenshots/browser_ui.png)
+<img width="1920" height="1080" alt="Screenshot_20260217_044614" src="https://github.com/user-attachments/assets/71c177ad-6521-4f59-992e-368c199d14d6" />
 
 ### 3. Running Docker Containers (In Terminal)
 *Evidence that both the Quarkus application and Selenium Chrome containers are running.*
-
-![Terminal Output Showing Docker Containers](screenshots/docker_containers.png)
+<img width="1152" height="317" alt="Screenshot_20260217_044720" src="https://github.com/user-attachments/assets/24a3f621-49f8-4ff1-8beb-ac2391b1f7f5" />
 
 ## 🏗️ Tech Stack
 * **Framework:** Quarkus (Java) - "Supersonic Subatomic Java"
