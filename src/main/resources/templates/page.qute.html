@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Order System</title></head>
+<body>
+    <h1>Product: Laptop</h1>
+    <p>Price: $120.00 | Stock: <span id="stock">10</span></p>
+    
+    <form action="/order" method="POST">
+        <label>Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="1">
+        <button type="submit" id="buyBtn">Buy Now</button>
+    </form>
+    
+    <h3>Status: <span id="message">{message}</span></h3>
+</body>
+</html>
