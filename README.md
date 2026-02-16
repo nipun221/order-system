@@ -1,6 +1,3 @@
-Here is the complete, professional `README.md` for your project. You can copy-paste this directly into a file named `README.md` in your project folder.
-
-```markdown
 # Full-Stack Order System with Testing Pyramid
 
 This project demonstrates a complete testing strategy (Unit, Integration, and End-to-End) for a Java Quarkus application.
@@ -118,9 +115,3 @@ order-system/
 
 * **"SessionNotCreatedException":** Ensure you are running both containers with `--network host`.
 * **Tests Paused:** Press `r` in the terminal to resume/trigger tests.
-
-```
-
-Would you like me to help you format the screenshots and this README into a final ZIP file structure for submission?
-
-```
