@@ -4,6 +4,23 @@ This project demonstrates a complete testing strategy (Unit, Integration, and En
 
 The entire development and testing environment is **containerized using Docker**, requiring **zero local installation** of Java, Maven, or Chrome. The project implements a "Testing Pyramid" approach to ensure software quality at every level.
 
+## 📸 Proof of Execution
+
+### 1. The "Golden Run" (All Tests Passed)
+*Evidence that Unit, Integration, and E2E tests executed successfully in the Docker container.*
+
+![Terminal Output Showing 3 Tests Passed](screenshots/terminal_output.png)
+
+### 2. Application UI (Running in Docker)
+*Evidence that the web application is accessible at http://localhost:8080 and renders correctly.*
+
+![Browser Screenshot of Order System](screenshots/browser_ui.png)
+
+### 3. Running Docker Containers (In Terminal)
+*Evidence that both the Quarkus application and Selenium Chrome containers are running.*
+
+![Terminal Output Showing Docker Containers](screenshots/docker_containers.png)
+
 ## 🏗️ Tech Stack
 * **Framework:** Quarkus (Java) - "Supersonic Subatomic Java"
 * **Build Tool:** Maven (Running inside Docker)
@@ -29,7 +46,6 @@ docker run -d --rm \
     --network host \
     --shm-size="2g" \
     selenium/standalone-chrome:latest
-
 ```
 
 ### Step 2: Start the Application & Run Tests
