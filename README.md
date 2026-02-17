@@ -1,4 +1,4 @@
-# Full-Stack Order System with Testing Pyramid & Load Analysis
+# Full-Stack Order System with Unit, Integration, E2E, and Load Testing (Dockerized)
 
 This project demonstrates a complete testing strategy (Unit, Integration, End-to-End, and Load Testing) for a Java Quarkus application.
 
