@@ -1,0 +1,10 @@
+{
+  "simulation": "OrderSystemLoadTest",
+  "simulationId": "ordersystemloadtest",
+  "start": 1771285700748,
+  "description": "",
+  "scenarios": ["Shopping Spree"],
+  "assertions": [
+
+  ]
+}

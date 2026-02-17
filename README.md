@@ -1,8 +1,8 @@
-# Full-Stack Order System with Testing Pyramid
+# Full-Stack Order System with Testing Pyramid & Load Analysis
 
-This project demonstrates a complete testing strategy (Unit, Integration, and End-to-End) for a Java Quarkus application.
+This project demonstrates a complete testing strategy (Unit, Integration, End-to-End, and Load Testing) for a Java Quarkus application.
 
-The entire development and testing environment is **containerized using Docker**, requiring **zero local installation** of Java, Maven, or Chrome. The project implements a "Testing Pyramid" approach to ensure software quality at every level.
+The entire development and testing environment is **containerized using Docker**, requiring **zero local installation** of Java, Maven, Chrome, or Gatling.
 
 ## 📸 Proof of Execution
 
@@ -18,6 +18,16 @@ The entire development and testing environment is **containerized using Docker**
 *Evidence that both the Quarkus application and Selenium Chrome containers are running.*
 <img width="1152" height="317" alt="Screenshot_20260217_044720" src="https://github.com/user-attachments/assets/24a3f621-49f8-4ff1-8beb-ac2391b1f7f5" />
 
+### 4. Load Test Execution (Gatling Terminal)
+*Evidence of 1,020 requests simulated with zero failures (KO=0).*
+
+![Gatling Terminal Output](screenshots/gatling_terminal.png)
+
+### 5. Load Test Analysis (Gatling Report)
+*Graphical breakdown of response time distribution and throughput.*
+
+![Gatling HTML Dashboard](screenshots/gatling_dashboard.png)
+
 ## 🏗️ Tech Stack
 * **Framework:** Quarkus (Java) - "Supersonic Subatomic Java"
 * **Build Tool:** Maven (Running inside Docker)
@@ -27,6 +37,7 @@ The entire development and testing environment is **containerized using Docker**
     * **Unit:** JUnit 5 (Mockito not required for pure logic)
     * **Integration:** RestAssured + `@QuarkusTest`
     * **End-to-End (E2E):** Selenium WebDriver (Remote) + Dockerized Chrome
+    * **Load Testing:** Gatling (Scala simulation running in Docker)
 
 ## 🚀 How to Run
 
@@ -69,35 +80,54 @@ Once the application starts and you see `Profile dev activated` in the terminal:
 
 You should see output confirming `Tests passed: 3` (Unit, Integration, and E2E).
 
----
+### Step 4: Run Load Test (Gatling)
+
+Open a new terminal and run the Gatling container to simulate traffic against the running app.
+Bash
+
+```bash
+docker run -it --rm \
+    --network host \
+    -v "$(pwd)/gatling/simulations":/opt/gatling/user-files/simulations \
+    -v "$(pwd)/gatling/results":/opt/gatling/results \
+    denvazh/gatling:latest
+```
 
 ## 🧪 Testing Strategy
 
-This project implements the three critical layers of the testing pyramid:
+This project implements the full testing pyramid plus non-functional performance testing:
 
 ### 1. Unit Testing (`PriceCalculatorTest.java`)
 
-* **Layer:** Bottom (Fastest, Isolated)
-* **Focus:** Pure business logic.
-* **Scenario:** Verifies that orders over $100 correctly receive a 10% discount.
-* **Tool:** JUnit 5.
-* **Why:** Ensures the math is correct before any database or API is involved.
+* **Focus:** Pure business logic (Discount rules).
+* **Why:** Ensures math is correct before any database/API involvement.
 
 ### 2. Integration Testing (`ShopResourceTest.java`)
 
-* **Layer:** Middle (Service + Database)
-* **Focus:** API endpoints and Database interaction.
-* **Scenario:** Verifies that the `/order` endpoint accepts POST requests, processes the transaction, and returns a 200 OK status.
-* **Tool:** `@QuarkusTest` + RestAssured.
-* **Why:** Ensures the REST API contract is honored and the application context loads correctly.
+* **Focus:** API endpoints and Database interactions.
+* **Why:** Verifies the REST API contract and transaction management.
 
 ### 3. End-to-End Testing (`WebInterfaceTest.java`)
 
-* **Layer:** Top (Slowest, Most Realistic)
-* **Focus:** User Interface and Browser interaction.
-* **Scenario:** Connects to the `selenium-chrome` container, navigates to the app, types a quantity, clicks "Buy Now", and scrapes the success message.
-* **Tool:** Selenium `RemoteWebDriver`.
-* **Why:** Simulates a real user journey to catch UI/UX issues.
+* **Focus:** User Interface and Browser interaction via Selenium.
+* **Why:** Simulates a real user clicking "Buy Now" to catch UI bugs.
+
+### 4. Load Testing (`OrderSystemLoadTest.scala`)
+
+* **Focus:** System stability under stress.
+* **Scenario:** Simulates concurrent users ramping up to a peak load to identify bottlenecks.
+
+---
+
+## 📊 Performance Analysis
+
+A load test was conducted simulating **1,020 requests** over a short duration.
+
+* **Throughput:** The system handled an average of **32.9 requests/second**.
+* **Reliability:** **0% Error Rate** (KO=0). The application logic correctly handled all concurrent transactions without crashing.
+* **Bottleneck Identification:** * The **p95 response time** was approximately **10 seconds** (10,182 ms).
+* **Analysis:** While the application remained stable (no errors), the high response time indicates a bottleneck, likely due to the **In-Memory H2 Database** locking during write-heavy concurrent transactions.
+* **Recommendation:** For production use, migrating to a standalone PostgreSQL database would significantly reduce latency under load.
 
 ---
 
@@ -105,21 +135,21 @@ This project implements the three critical layers of the testing pyramid:
 
 ```text
 order-system/
+├── gatling/
+│   ├── simulations/         # Scala Load Test Scripts
+│   └── results/             # HTML Reports (Generated)
+├── screenshots/             # Proof of execution
 ├── src
 │   ├── main
 │   │   ├── java/org/acme
-│   │   │   ├── OrderService.java    # Business Logic (Transaction management)
-│   │   │   ├── PriceCalculator.java # Pure Logic (Discount rules)
-│   │   │   ├── Product.java         # Database Entity (Panache ORM)
-│   │   │   └── ShopResource.java    # REST Controller & Qute Renderer
-│   │   └── resources/templates
-│   │       └── page.qute.html       # Web UI Template
+│   │   │   ├── OrderService.java    # Business Logic
+│   │   │   └── ShopResource.java    # REST Controller
 │   └── test
 │       └── java/org/acme
 │           ├── PriceCalculatorTest.java # Unit Test
 │           ├── ShopResourceTest.java    # Integration Test
 │           └── WebInterfaceTest.java    # Selenium E2E Test
-├── pom.xml                              # Dependencies (Quarkus + Selenium)
+├── pom.xml                              # Dependencies
 └── README.md                            # Documentation
 
 ```
