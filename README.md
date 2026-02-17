@@ -20,13 +20,11 @@ The entire development and testing environment is **containerized using Docker**
 
 ### 4. Load Test Execution (Gatling Terminal)
 *Evidence of 1,020 requests simulated with zero failures (KO=0).*
-
-![Gatling Terminal Output](screenshots/gatling_terminal.png)
+<img width="1920" height="1080" alt="Screenshot_20260217_052211" src="https://github.com/user-attachments/assets/24186223-001d-4290-ba2c-93cb357518c2" />
 
 ### 5. Load Test Analysis (Gatling Report)
 *Graphical breakdown of response time distribution and throughput.*
-
-![Gatling HTML Dashboard](screenshots/gatling_dashboard.png)
+<img width="1920" height="2813" alt="Screenshot 2026-02-17 at 05-21-10 Gatling Stats - Global Information" src="https://github.com/user-attachments/assets/25249f4d-9ac4-42a8-b430-6d40a7ea5fe8" />
 
 ## 🏗️ Tech Stack
 * **Framework:** Quarkus (Java) - "Supersonic Subatomic Java"
